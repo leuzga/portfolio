@@ -1,0 +1,1665 @@
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lenin Uzcategui · Frontend Developer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;0,700;1,300;1,600&family=Syne:wght@400;700;800&family=DM+Mono:wght@300;400&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --canario: #F6FE48;
+      /* amarillo canario - realce principal  */
+      --turquesa: #266ADA;
+      /* agua turquesa caribeña               */
+      --arena: #E3D2BB;
+      /* arena blanca de playa                */
+      --coral: #C1AE95;
+      /* tono cálido de coral/ámbar           */
+      --marino: #12376E;
+      /* mar profundo oscuro                  */
+
+      /* Sistema - fondo siempre muy oscuro */
+      --bg: #080f1e;
+      --surface: #0d1830;
+      --surface2: #112040;
+      --border: rgba(38, 106, 218, .12);
+      --border2: rgba(38, 106, 218, .22);
+      --text: #e8edf5;
+      --muted: rgba(227, 210, 187, .5);
+      --muted2: rgba(227, 210, 187, .22);
+      --accent: var(--canario);
+      --accent2: var(--turquesa);
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Syne', sans-serif;
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* ── Noise ── */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 200;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      opacity: .5;
+    }
+
+    /* ── Cursor ── */
+    .cursor {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      background: var(--canario);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      mix-blend-mode: difference;
+    }
+
+    .cursor-follower {
+      position: fixed;
+      width: 34px;
+      height: 34px;
+      border: 1.5px solid var(--canario);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9998;
+      transition: width .2s, height .2s, opacity .2s;
+      mix-blend-mode: difference;
+    }
+
+    /* ══════════════════════════════════════════
+   HERO
+══════════════════════════════════════════ */
+    .hero {
+      min-height: 100vh;
+      padding: 80px 64px 80px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      border-bottom: 1px solid var(--border2);
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      background:
+        radial-gradient(ellipse 65% 55% at 85% 15%, rgba(246, 254, 72, .08) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 45% at 5% 85%, rgba(38, 106, 218, .1) 0%, transparent 55%),
+        radial-gradient(ellipse 80% 60% at 50% 50%, rgba(8, 15, 30, .85) 0%, transparent 100%);
+    }
+
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      background-image:
+        linear-gradient(rgba(227, 210, 187, .06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(227, 210, 187, .06) 1px, transparent 1px);
+      background-size: 72px 72px;
+      mask-image: radial-gradient(ellipse 90% 90% at 50% 50%, black 20%, transparent 100%);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 1200px;
+    }
+
+    .hero-eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 36px;
+      animation: fadeUp .6s ease both;
+    }
+
+    .hero-eyebrow span {
+      font-family: 'DM Mono', monospace;
+      font-size: .68rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--turquesa);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        box-shadow: 0 0 0 0 rgba(38, 106, 218, .5);
+      }
+
+      50% {
+        box-shadow: 0 0 0 10px rgba(38, 106, 218, 0);
+      }
+    }
+
+    .hero h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(4.5rem, 10.5vw, 9.5rem);
+      font-weight: 700;
+      line-height: .87;
+      letter-spacing: -.025em;
+      animation: fadeUp .6s .1s ease both;
+    }
+
+    .hero h1 em {
+      font-style: italic;
+      color: var(--canario);
+    }
+
+    .hero-subtitle {
+      margin-top: 42px;
+      max-width: 560px;
+      font-family: 'DM Mono', monospace;
+      font-size: .8rem;
+      line-height: 1.9;
+      color: var(--muted);
+      animation: fadeUp .6s .2s ease both;
+    }
+
+    .hero-subtitle strong {
+      color: var(--arena);
+      font-weight: 400;
+    }
+
+    .hero-cta {
+      margin-top: 52px;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      flex-wrap: wrap;
+      animation: fadeUp .6s .3s ease both;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--canario);
+      color: var(--bg);
+      padding: 14px 30px;
+      font-family: 'Syne', sans-serif;
+      font-size: .78rem;
+      font-weight: 800;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+      transition: transform .2s, box-shadow .2s;
+    }
+
+    .btn-primary:hover {
+      transform: translate(-3px, -3px);
+      box-shadow: 5px 5px 0 var(--turquesa);
+    }
+
+    .btn-ghost {
+      font-family: 'DM Mono', monospace;
+      font-size: .7rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      border-bottom: 1px solid var(--border2);
+      padding-bottom: 3px;
+      transition: color .2s, border-color .2s;
+    }
+
+    .btn-ghost:hover {
+      color: var(--arena);
+      border-color: var(--arena);
+    }
+
+    .hero-stats {
+      position: absolute;
+      right: 64px;
+      bottom: 70px;
+      z-index: 1;
+      display: flex;
+      gap: 48px;
+      animation: fadeUp .6s .45s ease both;
+    }
+
+    .stat-number {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3rem;
+      font-weight: 700;
+      line-height: 1;
+      color: var(--canario);
+    }
+
+    .stat-label {
+      font-family: 'DM Mono', monospace;
+      font-size: .58rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 6px;
+    }
+
+    .scroll-indicator {
+      position: absolute;
+      bottom: 32px;
+      left: 64px;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-family: 'DM Mono', monospace;
+      font-size: .58rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      animation: fadeUp .6s .6s ease both;
+    }
+
+    .scroll-line {
+      width: 44px;
+      height: 1px;
+      background: var(--muted2);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .scroll-line::after {
+      content: '';
+      position: absolute;
+      left: -100%;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--turquesa);
+      animation: slideLine 2.2s infinite;
+    }
+
+    @keyframes slideLine {
+      to {
+        left: 100%;
+      }
+    }
+
+    /* ══════════════════════════════════════════
+   MARQUEE
+══════════════════════════════════════════ */
+    .marquee-wrap {
+      overflow: hidden;
+      padding: 14px 0;
+      background: var(--surface);
+      border-top: 1px solid var(--border2);
+      border-bottom: 1px solid var(--border2);
+    }
+
+    .marquee-track {
+      display: flex;
+      animation: marquee 22s linear infinite;
+      white-space: nowrap;
+    }
+
+    .marquee-item {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1rem;
+      color: var(--arena);
+      opacity: .45;
+      padding: 0 28px;
+      flex-shrink: 0;
+      letter-spacing: .04em;
+    }
+
+    .marquee-item .dot {
+      color: var(--turquesa);
+      font-style: normal;
+      margin-right: 28px;
+    }
+
+    @keyframes marquee {
+      from {
+        transform: translateX(0)
+      }
+
+      to {
+        transform: translateX(-50%)
+      }
+    }
+
+    /* ══════════════════════════════════════════
+   SECTION HEADER
+══════════════════════════════════════════ */
+    .section-header {
+      padding: 80px 64px 52px;
+      border-bottom: 1px solid var(--border2);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .section-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: .62rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--turquesa);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .section-tag::before {
+      content: '';
+      width: 22px;
+      height: 1px;
+      background: var(--turquesa);
+    }
+
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 5vw, 3.8rem);
+      font-weight: 600;
+      line-height: 1;
+      letter-spacing: -.015em;
+    }
+
+    .section-title em {
+      font-style: italic;
+      color: var(--muted);
+    }
+
+    /* ══════════════════════════════════════════
+   PROJECTS GRID
+══════════════════════════════════════════ */
+    .projects {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+      gap: 20px;
+      background: var(--bg);
+      padding: 40px 48px;
+    }
+
+    .project-card {
+      background: var(--surface);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      text-decoration: none;
+      color: inherit;
+      transition: background .3s, transform .3s, box-shadow .3s;
+      position: relative;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+    }
+
+    .project-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 60px rgba(38, 106, 218, .15), 0 0 0 1px rgba(38, 106, 218, .25);
+    }
+
+    .project-card:hover {
+      background: var(--surface2);
+    }
+
+    /* — imagen — */
+    .project-img-wrap {
+      position: relative;
+      overflow: hidden;
+      aspect-ratio: 16/9;
+      background: var(--surface2);
+    }
+
+    .project-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+      transition: transform .5s ease, filter .3s;
+      filter: saturate(.75) brightness(.88);
+    }
+
+    .project-card:hover .project-img-wrap img {
+      transform: scale(1.05);
+      filter: saturate(1) brightness(1);
+    }
+
+    .img-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background: linear-gradient(to bottom, transparent 35%, var(--surface) 100%);
+      transition: opacity .3s;
+    }
+
+    .project-card:hover .img-overlay {
+      opacity: .55;
+    }
+
+    .visit-btn {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(.82);
+      z-index: 2;
+      opacity: 0;
+      background: var(--canario);
+      color: var(--bg);
+      padding: 11px 22px;
+      font-family: 'Syne', sans-serif;
+      font-size: .7rem;
+      font-weight: 800;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+      transition: opacity .3s, transform .3s;
+      white-space: nowrap;
+    }
+
+    .project-card:hover .visit-btn {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    .featured-tag {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      z-index: 3;
+      background: var(--canario);
+      color: var(--bg);
+      font-family: 'DM Mono', monospace;
+      font-size: .54rem;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+    }
+
+    /* — body — */
+    .project-body {
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .project-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .project-index {
+      font-family: 'DM Mono', monospace;
+      font-size: .58rem;
+      color: var(--muted2);
+      letter-spacing: .1em;
+    }
+
+    .tech-stack {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .tech-badge {
+      font-family: 'DM Mono', monospace;
+      font-size: .56rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border: 1px solid;
+      line-height: 1.5;
+    }
+
+    .tech-badge.vue {
+      color: #4FC08D;
+      border-color: #4FC08D44;
+    }
+
+    .tech-badge.react {
+      color: #61DAFB;
+      border-color: #61DAFB44;
+    }
+
+    .tech-badge.svelte {
+      color: #FF3E00;
+      border-color: #FF3E0044;
+    }
+
+    .tech-badge.angular {
+      color: #FF6B6B;
+      border-color: #FF6B6B44;
+    }
+
+    .tech-badge.js {
+      color: #F6FE48;
+      border-color: #F6FE4844;
+    }
+
+    .tech-badge.ts {
+      color: #7EB0FF;
+      border-color: #7EB0FF44;
+    }
+
+    .tech-badge.vite {
+      color: #BD34FE;
+      border-color: #BD34FE44;
+    }
+
+    .tech-badge.storybook {
+      color: #FF4785;
+      border-color: #FF478544;
+    }
+
+    .tech-badge.api {
+      color: #266ADA;
+      border-color: #266ADA44;
+    }
+
+    .tech-badge.pinia {
+      color: #FFD859;
+      border-color: #FFD85944;
+    }
+
+    .tech-badge.ecom {
+      color: #E3D2BB;
+      border-color: #E3D2BB44;
+    }
+
+    .tech-badge.html {
+      color: #E34F26;
+      border-color: #E34F2644;
+    }
+
+    .tech-badge.css {
+      color: #38BDF8;
+      border-color: #38BDF844;
+    }
+
+    .tech-badge.lightning {
+      color: #F6FE48;
+      border-color: #F6FE4844;
+    }
+
+    .project-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.85rem;
+      font-weight: 600;
+      line-height: 1.1;
+      margin-bottom: 10px;
+      transition: color .2s;
+    }
+
+    .project-card:hover .project-name {
+      color: var(--canario);
+    }
+
+    .project-url {
+      font-family: 'DM Mono', monospace;
+      font-size: .63rem;
+      color: var(--muted);
+      letter-spacing: .05em;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .project-url::before {
+      content: '→';
+      color: var(--turquesa);
+      font-size: .7rem;
+      transition: transform .2s;
+    }
+
+    .project-card:hover .project-url::before {
+      transform: translateX(5px);
+    }
+
+    .project-desc {
+      font-family: 'DM Mono', monospace;
+      font-size: .73rem;
+      line-height: 1.8;
+      color: var(--muted);
+      flex: 1;
+    }
+
+    .project-desc strong {
+      color: var(--arena);
+      font-weight: 400;
+    }
+
+    /* placeholder si falla la imagen */
+    .img-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .ph-icon {
+      font-size: 2.6rem;
+      opacity: .25;
+    }
+
+    .ph-text {
+      font-family: 'DM Mono', monospace;
+      font-size: .6rem;
+      color: var(--muted2);
+      letter-spacing: .08em;
+    }
+
+    /* ══════════════════════════════════════════
+   PITCH SECTION
+══════════════════════════════════════════ */
+    .pitch-section {
+      padding: 100px 64px;
+      border-top: 1px solid var(--border2);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .pitch-section::before {
+      content: '';
+      position: absolute;
+      right: -100px;
+      top: -100px;
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(38, 106, 218, .1), transparent 70%);
+      pointer-events: none;
+    }
+
+    .pitch-eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: .62rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--turquesa);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .pitch-eyebrow::before {
+      content: '';
+      width: 20px;
+      height: 1px;
+      background: var(--turquesa);
+    }
+
+    .pitch-headline {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.4rem, 4vw, 3.8rem);
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -.015em;
+      margin-bottom: 32px;
+    }
+
+    .pitch-headline em {
+      font-style: italic;
+      color: var(--canario);
+    }
+
+    .pitch-body {
+      font-family: 'DM Mono', monospace;
+      font-size: .76rem;
+      line-height: 1.95;
+      color: var(--muted);
+    }
+
+    .pitch-body p {
+      margin-bottom: 18px;
+    }
+
+    .pitch-body strong {
+      color: var(--arena);
+      font-weight: 400;
+    }
+
+    /* skills list */
+    .skills-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .skill-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 22px;
+      background: var(--surface);
+      border-left: 2px solid transparent;
+      transition: border-color .2s, background .2s;
+    }
+
+    .skill-item:hover {
+      background: var(--surface2);
+      border-left-color: var(--canario);
+    }
+
+    .skill-name {
+      font-family: 'Syne', sans-serif;
+      font-size: .8rem;
+      font-weight: 700;
+    }
+
+    .skill-level {
+      font-family: 'DM Mono', monospace;
+      font-size: .58rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+
+    .skill-level.expert {
+      color: var(--canario);
+    }
+
+    .skill-level.advanced {
+      color: var(--turquesa);
+    }
+
+    .skill-level.niche {
+      color: var(--coral);
+    }
+
+    /* ══════════════════════════════════════════
+   FOOTER
+══════════════════════════════════════════ */
+    footer {
+      padding: 56px 64px;
+      border-top: 1px solid var(--border2);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 24px;
+      background: var(--surface);
+    }
+
+    .footer-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.6rem;
+      font-weight: 600;
+    }
+
+    .footer-name span {
+      color: var(--canario);
+    }
+
+    .footer-tagline {
+      font-family: 'DM Mono', monospace;
+      font-size: .62rem;
+      color: var(--muted);
+      letter-spacing: .1em;
+      margin-top: 6px;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 28px;
+      align-items: center;
+    }
+
+    .footer-links a {
+      font-family: 'DM Mono', monospace;
+      font-size: .65rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color .2s;
+    }
+
+    .footer-links a:hover {
+      color: var(--canario);
+    }
+
+    .footer-badge {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+    }
+
+    .footer-badge .avail {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(93, 204, 51, .12);
+      border: 1px solid rgba(93, 204, 51, .3);
+      color: var(--turquesa);
+      padding: 8px 16px;
+      font-family: 'DM Mono', monospace;
+      font-size: .62rem;
+      letter-spacing: .1em;
+    }
+
+    .footer-badge .avail::before {
+      content: '';
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--turquesa);
+      animation: pulse 2s infinite;
+    }
+
+    /* ══════════════════════════════════════════
+   ANIMATIONS / UTILITIES
+══════════════════════════════════════════ */
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(26px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(34px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ══════════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════════ */
+    @media (max-width:768px) {
+
+      .hero,
+      .section-header,
+      .pitch-section,
+      footer {
+        padding-left: 24px;
+        padding-right: 24px;
+      }
+
+      .projects {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-stats {
+        position: static;
+        margin-top: 48px;
+        justify-content: flex-start;
+      }
+
+      .pitch-section {
+        grid-template-columns: 1fr;
+        padding: 60px 24px;
+      }
+    }
+
+    /* ══════════════════════════════════════════
+   DECORATIVE NUMBER — hero background
+══════════════════════════════════════════ */
+    .hero-deco {
+      position: absolute;
+      right: 60px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(12rem, 22vw, 22rem);
+      font-weight: 700;
+      font-style: italic;
+      color: rgba(247, 255, 70, .04);
+      line-height: 1;
+      z-index: 0;
+      pointer-events: none;
+      user-select: none;
+      letter-spacing: -.05em;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-follower" id="follower"></div>
+
+  <!-- ══════════════════════════════════════════
+     HERO
+══════════════════════════════════════════ -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-deco">LU</div>
+
+    <div class="hero-content">
+      <div class="hero-eyebrow">
+        <div class="pulse-dot"></div>
+        <span>Disponible · Frontend Developer · Vercel</span>
+      </div>
+
+      <h1>Lenin<br><em>Uzcategui</em></h1>
+      <h4>WEB UI / Desarrollador Frontend</h4>
+      <p class="hero-subtitle">
+        No construyo solo interfaces.<br>
+        <strong>Construyo experiencias que convierten.</strong><br><br>
+        Cada línea de código es intencional.<br>
+        Cada componente, una decisión de negocio.<br>
+        5 frameworks. 7 proyectos en producción.<br>
+        <strong>Un desarrollador que entrega resultados reales.</strong>
+      </p>
+
+      <div class="hero-cta">
+        <a href="#projects" class="btn-primary">
+          Explorar proyectos
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <path d="M3 7h8M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+          </svg>
+        </a>
+        <a href="https://github.com/leuzga" target="_blank" class="btn-ghost">
+          github.com/leuzga
+        </a>
+      </div>
+    </div>
+
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-number">6+</div>
+        <div class="stat-label">
+          Proyectos en
+          <br>
+          producción
+        </div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">5+</div>
+        <div class="stat-label">
+          Frameworks
+          <br>
+          dominados
+        </div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">∞</div>
+        <div class="stat-label">
+          Pasión por
+          <br>
+          el frontend
+        </div>
+      </div>
+    </div>
+
+    <div class="scroll-indicator">
+      <div class="scroll-line"></div>
+      Scroll para explorar
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+     MARQUEE
+══════════════════════════════════════════ -->
+  <div class="marquee-wrap">
+    <div class="marquee-track">
+      <span class="marquee-item">
+
+
+
+
+
+
+        <span class="dot">✦</span>Vue 3</span>
+      <span class="marquee-item">
+
+
+
+
+
+
+        <span class="dot">✦</span>React</span>
+      <span class="marquee-item">
+
+
+
+
+
+
+        <span class="dot">✦</span>Svelte 5</span>
+      <span class="marquee-item">
+
+
+
+
+
+
+        <span class="dot">✦</span>Angular</span>
+      <span class="marquee-item">
+
+
+
+
+
+
+        <span class="dot">✦</span>TypeScript</span>
+      <span class="marquee-item">
+
+
+
+
+
+
+        <span class="dot">✦</span>LightningJS</span>
+      <span class="marquee-item">
+
+
+
+
+
+
+        <span class="dot">✦</span>Storybook</span>
+      <span class="marquee-item">
+
+
+
+
+
+
+        <span class="dot">✦</span>Vite</span>
+      <span class="marquee-item">
+
+
+
+
+
+
+        <span class="dot">✦</span>Tailwind</span>
+      <span class="marquee-item">
+
+
+
+
+
+
+        <span class="dot">✦</span>Design Systems</span>
+      <span class="marquee-item">
+
+
+
+
+
+
+        <span class="dot">✦</span>Vue 3</span>
+      <span class="marquee-item">
+
+
+
+
+
+
+        <span class="dot">✦</span>React</span>
+      <span class="marquee-item">
+
+
+
+
+
+
+        <span class="dot">✦</span>Svelte 5</span>
+      <span class="marquee-item">
+
+
+
+
+
+
+        <span class="dot">✦</span>Angular</span>
+      <span class="marquee-item">
+
+
+
+
+
+
+        <span class="dot">✦</span>TypeScript</span>
+      <span class="marquee-item">
+
+
+
+
+
+
+        <span class="dot">✦</span>LightningJS</span>
+      <span class="marquee-item">
+
+
+
+
+
+
+        <span class="dot">✦</span>Storybook</span>
+      <span class="marquee-item">
+
+
+
+
+
+
+        <span class="dot">✦</span>Vite</span>
+      <span class="marquee-item">
+
+
+
+
+
+
+        <span class="dot">✦</span>Tailwind</span>
+      <span class="marquee-item">
+
+
+
+
+
+
+        <span class="dot">✦</span>Design Systems</span>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+     PROJECTS
+══════════════════════════════════════════ -->
+  <div class="section-header" id="projects">
+    <div>
+      <div class="section-tag">Portfolio</div>
+      <h2 class="section-title">Proyectos <em>reales</em><br>en producción</h2>
+    </div>
+    <p style="font-family:'DM Mono',monospace;font-size:.72rem;color:var(--muted);max-width:300px;line-height:1.8;">
+      Tecnología elegida con propósito.<br>Cada proyecto resuelve un problema real.
+    </p>
+  </div>
+
+  <div class="projects">
+
+    <!-- ── 01: ProyectoV19 ── -->
+    <a class="project-card reveal" href="https://proyecto-v19.vercel.app" target="_blank" rel="noopener">
+      <div class="project-img-wrap">
+        <img
+          src="https://api.microlink.io?url=https%3A%2F%2Fproyecto-v19.vercel.app&screenshot=true&meta=false&embed=screenshot.url"
+          alt="Proyecto V19" loading="lazy"
+          onerror="this.parentNode.innerHTML='<div class=\'img-placeholder\'><div class=\'ph-icon\'>⚡</div><div class=\'ph-text\'>proyecto-v19.vercel.app</div></div>'">
+        <div class="img-overlay"></div>
+        <div class="visit-btn">Ver proyecto →</div>
+        <div class="featured-tag">Más reciente</div>
+      </div>
+      <div class="project-body">
+        <div class="project-meta">
+          <span class="project-index">01 / 06</span>
+          <div class="tech-stack">
+            <span class="tech-badge vue">Angular 19</span>
+            <span class="tech-badge ts">Module Federation</span>
+            <span class="tech-badge ts">Tntegration-Migration</span>
+            <span class="tech-badge vite">Vite</span>
+          </div>
+        </div>
+        <h3 class="project-name">Proyecto V19</h3>
+        <div class="project-url">proyecto-v19.vercel.app</div>
+        <p class="project-desc">
+          Este proyecto demuestra una arquitectura de <strong>micro-frontends basada en Module Federation</strong> que
+          permite la
+          <strong>coexistencia estratégica de Angular 19 y Angular 14</strong> en un mismo entorno de producción,
+          rompiendo el
+          paradigma de que las <em>migraciones deben ser eventos disruptivos y costosos</em>. Al integrar módulos
+          remotos legacy
+          dentro de una shell moderna con <strong>Standalone Components y Signals</strong>, se valida técnicamente que
+          es posible
+          <em>evolucionar la experiencia de usuario y adoptar nuevas funcionalidades sin reescribir código estable</em>,
+          ofreciendo
+          a las empresas una <strong>ruta de migración progresiva, escalable y libre de riesgos</strong>. Esta solución
+          transforma
+          la <em>deuda técnica en una ventaja competitiva</em>, permitiendo que los equipos de desarrollo
+          <strong>entreguen valor continuo mientras modernizan su stack a su propio ritmo</strong>,
+          <em>sin detener la innovación ni incurrir en costos innecesarios</em> por cambios abruptos.
+        </p>
+      </div>
+    </a>
+
+    <!-- ── 02: LightningJS Blits ── -->
+    <a class="project-card reveal" href="https://lightning-js-blits-app.vercel.app" target="_blank" rel="noopener">
+      <div class="project-img-wrap">
+        <img
+          src="https://api.microlink.io?url=https%3A%2F%2Flightning-js-blits-app.vercel.app&screenshot=true&meta=false&embed=screenshot.url"
+          alt="LightningJS Blits" loading="lazy"
+          onerror="this.parentNode.innerHTML='<div class=\'img-placeholder\'><div class=\'ph-icon\'>📺</div><div class=\'ph-text\'>lightning-js-blits-app.vercel.app</div></div>'">
+        <div class="img-overlay"></div>
+        <div class="visit-btn">Ver proyecto →</div>
+      </div>
+      <div class="project-body">
+        <div class="project-meta">
+          <span class="project-index">02 / 06</span>
+          <div class="tech-stack">
+            <span class="tech-badge lightning">LightningJS</span>
+            <span class="tech-badge js">Blits</span>
+            <span class="tech-badge js">TypeScript</span>
+            <span class="tech-badge api">JSON API</span>
+          </div>
+        </div>
+        <h3 class="project-name">Lightning JS Blits</h3>
+        <div class="project-url">lightning-js-blits-app.vercel.app</div>
+        <p class="project-desc">
+          Este proyecto demuestra la implementación de <strong>Lightning JS con Blits</strong>, el framework
+          especializado
+          <em>diseñado específicamente para el desarrollo de aplicaciones OTT y Connected TV</em> que ha revolucionado
+          la industria del streaming. Al aprovechar el <strong>renderizado WebGL de alto rendimiento</strong> de
+          Lightning 3
+          y la arquitectura component-based de Blits, se logra una <em>ejecución fluida y visualmente optimizada</em> en
+          dispositivos de media con recursos limitados, eliminando las barreras tradicionales del desarrollo TV. Esta
+          solución
+          <strong>supera las limitaciones del DOM HTML convencional</strong>, ofreciendo una alternativa profesional que
+          <em>garantiza 60 FPS en interfaces complejas</em> mientras mantiene una <strong>portabilidad
+            excepcional</strong>
+          entre diferentes plataformas de streaming y set-top boxes. La adopción de Lightning JS transforma el
+          desarrollo
+          de aplicaciones de media, permitiendo a las empresas <strong>entregar experiencias de usuario premium</strong>
+          <em>sin comprometer el rendimiento ni la escalabilidad</em>, posicionándose como el estándar tecnológico para
+          <strong>soluciones de streaming profesionales</strong> que exigen máxima eficiencia y calidad visual.
+        </p>
+      </div>
+    </a>
+
+    <!-- ── 04: Shopping Store ── -->
+    <a class="project-card reveal" href="https://shopping-store-psi-pied.vercel.app" target="_blank" rel="noopener">
+      <div class="project-img-wrap">
+        <img
+          src="https://api.microlink.io?url=https%3A%2F%2Fshopping-store-psi-pied.vercel.app&screenshot=true&meta=false&embed=screenshot.url"
+          alt="Shopping Store" loading="lazy"
+          onerror="this.parentNode.innerHTML='<div class=\'img-placeholder\'><div class=\'ph-icon\'>🛒</div><div class=\'ph-text\'>shopping-store-psi-pied.vercel.app</div></div>'">
+        <div class="img-overlay"></div>
+        <div class="visit-btn">Ver proyecto →</div>
+        <div class="featured-tag">E-Commerce</div>
+      </div>
+      <div class="project-body">
+        <div class="project-meta">
+          <span class="project-index">03 / 06</span>
+          <div class="tech-stack">
+            <span class="tech-badge vue">Ahgular 19+</span>
+            <span class="tech-badge pinia">Signals</span>
+            <span class="tech-badge pinia">Functional Proggraming</span>
+            <span class="tech-badge ecom">E-Commerce</span>
+          </div>
+        </div>
+        <h3 class="project-name">Shopping Store</h3>
+        <div class="project-url">shopping-store-psi-pied.vercel.app</div>
+        <p class="project-desc">
+          Este proyecto de <strong>e-commerce desarrollado exclusivamente con Angular 19+</strong> demuestra la
+          aplicación rigurosa de
+          <em>paradigmas de programación funcional</em> en un entorno de producción real, consumiendo datos desde una
+          <strong>API pública mediante archivos JSON</strong> sin depender de patrones imperativos tradicionales. La
+          arquitectura
+          explota <em>exclusivamente las capacidades reactivas modernas de Angular</em>: <strong>Signals, toSignals,
+            effect, inject</strong>
+          y <em>patrones de matching declarativos</em>, eliminando por completo el uso de clases, servicios con estado
+          mutable o
+          subscripciones manuales a Observables. Al simular <strong>programación funcional pura en TypeScript</strong>,
+          se logra un
+          <em>flujo de datos predecible, inmutable y libre de efectos secundarios</em>, donde cada interacción del
+          usuario se
+          gestiona mediante transformaciones composables y derivaciones reactivas. Esta solución valida que es posible
+          construir
+          <strong>aplicaciones comerciales escalables</strong> <em>sin recurrir a patrones tradicionales de
+            JavaScript/TypeScript</em>,
+          ofreciendo a los equipos de desarrollo una referencia técnica para adoptar <strong>arquitecturas funcionales
+            en Angular</strong>
+          que priorizan la mantenibilidad, la testabilidad y el rendimiento, mientras se <em>aprovecha al máximo el
+            ecosistema moderno</em>
+          del framework sin sacrificar robustez ni experiencia de usuario.
+        </p>
+      </div>
+    </a>
+
+    <!-- ── 05: Garnet UI Svelte5 ── -->
+    <a class="project-card reveal" href="https://garnet-ui-svelte5.vercel.app" target="_blank" rel="noopener">
+      <div class="project-img-wrap">
+        <img
+          src="https://api.microlink.io?url=https%3A%2F%2Fgarnet-ui-svelte5.vercel.app&screenshot=true&meta=false&embed=screenshot.url"
+          alt="Garnet UI Svelte 5" loading="lazy"
+          onerror="this.parentNode.innerHTML='<div class=\'img-placeholder\'><div class=\'ph-icon\'>💎</div><div class=\'ph-text\'>garnet-ui-svelte5.vercel.app</div></div>'">
+        <div class="img-overlay"></div>
+        <div class="visit-btn">Ver proyecto →</div>
+        <div class="featured-tag">Design System</div>
+      </div>
+      <div class="project-body">
+        <div class="project-meta">
+          <span class="project-index">04 / 06</span>
+          <div class="tech-stack">
+            <span class="tech-badge svelte">Svelte 5</span>
+            <span class="tech-badge storybook">Storybook</span>
+            <span class="tech-badge storybook">Runas - Signals</span>
+            <span class="tech-badge vite">Vite</span>
+          </div>
+        </div>
+        <h3 class="project-name">Garnet UI</h3>
+        <div class="project-url">garnet-ui-svelte5.vercel.app</div>
+        <p class="project-desc">
+          Este proyecto representa una <strong>implementación nativa de Svelte 5</strong> que explota exclusivamente el
+          nuevo modelo de
+          <em>reactividad basado en Runas</em>, incluyendo <strong>$state, $derived, $effect y $props</strong> para
+          gestionar el flujo
+          de datos de forma declarativa y granular, eliminando por completo la reactividad tradicional basada en
+          compilación.
+          La integración con <strong>Tailwind CSS</strong> permite una <em>estetización utilitaria, responsiva y
+            altamente mantenible</em>,
+          mientras que la incorporación de <strong>Storybook</strong> como núcleo de documentación y testing valida cada
+          componente
+          en aislamiento, garantizando <em>consistencia visual, interoperabilidad y calidad en tiempo real</em>. Esta
+          arquitectura es
+          <strong>ideal para empresas que operan con Design Systems propios</strong>, ya que ofrece un <em>flujo de
+            trabajo escalable</em>
+          donde los componentes se documentan, prueban y versionan de forma autónoma, facilitando la colaboración entre
+          equipos de
+          diseño y desarrollo. Al adoptar <strong>Svelte 5 con Runas + Storybook + Tailwind</strong>, las organizaciones
+          pueden
+          <em>acelerar la creación de interfaces robustas y reutilizables</em>, reduciendo la deuda técnica y asegurando
+          que su
+          <strong>sistema de componentes evolucione con agilidad</strong> sin comprometer la estabilidad ni la
+          experiencia de usuario
+          en aplicaciones de producción.
+        </p>
+      </div>
+    </a>
+
+    <!-- ── 06: Curso Ebook Landing ── -->
+    <a class="project-card reveal" href="https://curso-ebook-landing-rho.vercel.app" target="_blank" rel="noopener">
+      <div class="project-img-wrap">
+        <img
+          src="https://api.microlink.io?url=https%3A%2F%2Fcurso-ebook-landing-rho.vercel.app&screenshot=true&meta=false&embed=screenshot.url"
+          alt="Curso Ebook Landing" loading="lazy"
+          onerror="this.parentNode.innerHTML='<div class=\'img-placeholder\'><div class=\'ph-icon\'>📚</div><div class=\'ph-text\'>curso-ebook-landing-rho.vercel.app</div></div>'">
+        <div class="img-overlay"></div>
+        <div class="visit-btn">Ver proyecto →</div>
+      </div>
+      <div class="project-body">
+        <div class="project-meta">
+          <span class="project-index">05 / 06</span>
+          <div class="tech-stack">
+            <span class="tech-badge html">HTML5</span>
+            <span class="tech-badge css">CSS3</span>
+            <span class="tech-badge css">Tailwind</span>
+            <span class="tech-badge js">JavaScript/Stripe</span>
+          </div>
+        </div>
+        <h3 class="project-name">Curso Ebook Landing</h3>
+        <div class="project-url">curso-ebook-landing-rho.vercel.app</div>
+        <p class="project-desc">
+          Esta <strong>landing page desarrollada con Svelte</strong> demuestra la integración estratégica entre
+          <em>marketing digital y arquitectura frontend moderna</em>, combinando la reactividad eficiente de Svelte con
+          <strong>Tailwind CSS</strong> para crear una experiencia promocional <em>rápida, responsiva y visualmente
+            atractiva</em>.
+          La aplicación se conecta directamente con <strong>Stripe como pasarela de pago externa</strong>, habilitando
+          un
+          <em>flujo de conversión seguro y sin fricciones propietarias</strong>, ofreciendo a las empresas una
+            alternativa
+            <em>ligera, escalable y fácil de mantener</strong> para lanzar productos digitales, cursos o ebooks. Al
+              adoptar esta
+              arquitectura, las organizaciones pueden <strong>acelerar el time-to-market de sus campañas</strong>,
+              <em>reducir costos de infraestructura</em> y garantizar una <strong>experiencia de pago
+                optimizada</strong> que
+              <em>maximiza la conversión sin comprometer la seguridad ni la calidad del código</em>.
+        </p>
+      </div>
+    </a>
+
+    <!-- ── 06: React Festivall ── -->
+    <a class="project-card reveal" href="https://reactfestivall.vercel.app" target="_blank" rel="noopener">
+      <div class="project-img-wrap">
+        <img
+          src="https://api.microlink.io?url=https%3A%2F%2Freactfestivall.vercel.app&screenshot=true&meta=false&embed=screenshot.url"
+          alt="React Festivall" loading="lazy"
+          onerror="this.parentNode.innerHTML='<div class=\'img-placeholder\'><div class=\'ph-icon\'>⚛️</div><div class=\'ph-text\'>reactfestivall.vercel.app</div></div>'">
+        <div class="img-overlay"></div>
+        <div class="visit-btn">Ver proyecto →</div>
+        <div class="featured-tag">React</div>
+      </div>
+      <div class="project-body">
+        <div class="project-meta">
+          <span class="project-index">06 / 06</span>
+          <div class="tech-stack">
+            <span class="tech-badge react">React</span>
+            <span class="tech-badge js">Java/springboot</span>
+            <span class="tech-badge js">Metodologias Agiles</span>
+            <span class="tech-badge vite">Vite</span>
+          </div>
+        </div>
+        <h3 class="project-name">React Festivall</h3>
+        <div class="project-url">reactfestivall.vercel.app</div>
+        <p class="project-desc">
+          Este <strong>e-commerce desarrollado en React con TanStack Query</strong> representa la entrega final de un
+          <em>proyecto colaborativo de bootcamp</em>, donde se aplicó un ciclo de desarrollo integral: desde la
+          <strong>definición de requerimientos y prototipado en Figma</strong> hasta la implementación modular mediante
+          <em>Storybook y metodologías ágiles</em>. La arquitectura backend, construida sobre <strong>Java/Spring Boot
+            con PostgreSQL</strong>
+          como capa de persistencia, fue <strong>containerizada con Docker</strong> para garantizar <em>portabilidad,
+            escalabilidad
+            y consistencia entre entornos</em>. Se integraron <strong>módulos de procesamiento de datos en
+            Java</strong>,
+          <em>gestión de persistencia relacional y frontend reactivo</em> en una solución orquestada que valida la
+          <strong>comunicación eficiente entre capas</strong>. Para su demostración en Vercel, el proyecto fue adaptado
+          a una
+          <strong>versión autocontenida</strong> que simula la capa de datos <em>sin depender de servicios
+            externos</em>,
+          permitiendo visualizar la arquitectura completa en cualquier entorno. Esta solución demuestra que es posible
+          <strong>entregar productos full-stack funcionales y escalables</strong> <em>manteniendo buenas prácticas de
+            ingeniería</em>:
+          gestión de estado con React Query, componentes documentados, testing visual y flujos validados. Ideal para
+          empresas
+          que buscan <strong>referencias técnicas</strong> de equipos capaces de <em>trabajar bajo presión, colaborar en
+            tiempo real
+            y entregar valor desde el primer sprint</em>, mientras se <strong>preserva la calidad del código y la
+            experiencia de usuario</strong>
+          en aplicaciones de producción con arquitecturas modernas basadas en <strong>microservicios, contenedores y
+            bases de datos relacionales</strong>.
+        </p>
+      </div>
+    </a>
+
+  </div>
+  <!-- /projects -->
+
+  <!-- ══════════════════════════════════════════
+     PITCH
+══════════════════════════════════════════ -->
+  <section class="pitch-section">
+    <div>
+      <div class="pitch-eyebrow">Por qué contratar a Lenin</div>
+      <h2 class="pitch-headline">
+        No buscas<br>un developer.<br>
+        <em>Buscas resultados.</em>
+      </h2>
+      <div class="pitch-body">
+        <p>
+          La mayoría de los desarrolladores conocen <strong>un framework</strong>.
+          Lenin conoce cinco y los usa en producción. Eso significa integración inmediata
+          en tu equipo sin curva de aprendizaje de 3 meses.
+        </p>
+        <p>
+          Cada proyecto en este portfolio resuelve un problema real: e-commerce que vende,
+          design systems que escalan, landing pages que convierten, y aplicaciones
+          enterprise que no se caen en producción.
+        </p>
+        <p>
+          <strong>El diferencial</strong>: capacidad de razonar sobre arquitectura, no solo escribir código.
+          Proponer soluciones, no solo ejecutar tareas.
+        </p>
+      </div>
+    </div>
+
+    <ul class="skills-list">
+      <li class="skill-item">
+        <span class="skill-name">Vue 3 + Composition API</span>
+        <span class="skill-level expert">Expert</span>
+      </li>
+      <li class="skill-item">
+        <span class="skill-name">React + Hooks</span>
+        <span class="skill-level advanced">Advanced</span>
+      </li>
+      <li class="skill-item">
+        <span class="skill-name">Svelte 5 / Design Systems</span>
+        <span class="skill-level advanced">Advanced</span>
+      </li>
+      <li class="skill-item">
+        <span class="skill-name">Angular / Enterprise</span>
+        <span class="skill-level advanced">Advanced</span>
+      </li>
+      <li class="skill-item">
+        <span class="skill-name">TypeScript</span>
+        <span class="skill-level advanced">Advanced</span>
+      </li>
+      <li class="skill-item">
+        <span class="skill-name">LightningJS / SmartTV</span>
+        <span class="skill-level niche">Niche Expert</span>
+      </li>
+      <li class="skill-item">
+        <span class="skill-name">Storybook / Component Testing</span>
+        <span class="skill-level niche">Proficient</span>
+      </li>
+      <li class="skill-item">
+        <span class="skill-name">Vite · Vercel · CI/CD</span>
+        <span class="skill-level niche">Proficient</span>
+      </li>
+    </ul>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+     FOOTER
+══════════════════════════════════════════ -->
+  <footer>
+    <div>
+      <div class="footer-name">
+        Lenin
+        <span>Uzcategui</span>
+      </div>
+      <div class="footer-tagline">
+        Frontend Developer · Open to opportunities worldwide
+      </div>
+    </div>
+
+    <div class="footer-links">
+      <a href="https://github.com/leuzga" target="_blank">
+        GitHub
+      </a>
+      <a href="https://www.linkedin.com/in/lenin-uzcategui-71073022/" target="_blank">
+        LinkedIn
+      </a>
+    </div>
+
+    <div class="footer-badge">
+      <div class="avail" style="color: var(--canario); border-color: var(--canario);">En búsqueda Activa de Empleo</div>
+    </div>
+  </footer>
+
+  <!-- ══════════════════════════════════════════
+     SCRIPTS
+══════════════════════════════════════════ -->
+  <script>
+    // Cursor personalizado
+    const cursor = document.getElementById('cursor');
+    const follower = document.getElementById('follower');
+    let mx = -200, my = -200, fx = -200, fy = -200;
+
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      cursor.style.left = mx - 5 + 'px';
+      cursor.style.top = my - 5 + 'px';
+    });
+
+    (function animFollower() {
+      fx += (mx - fx) * 0.11;
+      fy += (my - fy) * 0.11;
+      follower.style.left = fx - 17 + 'px';
+      follower.style.top = fy - 17 + 'px';
+      requestAnimationFrame(animFollower);
+    })();
+
+    document.querySelectorAll('a, button').forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        follower.style.width = '58px';
+        follower.style.height = '58px';
+        follower.style.opacity = '.4';
+      });
+      el.addEventListener('mouseleave', () => {
+        follower.style.width = '34px';
+        follower.style.height = '34px';
+        follower.style.opacity = '1';
+      });
+    });
+
+    // Scroll reveal con stagger
+    const reveals = [...document.querySelectorAll('.reveal')];
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const idx = reveals.indexOf(entry.target) % 2;
+        entry.target.style.transitionDelay = (idx * 0.13) + 's';
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      });
+    }, { threshold: 0.08 });
+    reveals.forEach(el => observer.observe(el));
+
+    // Smooth scroll
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        e.preventDefault();
+        document.querySelector(a.getAttribute('href'))
+          ?.scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+  </script>
+</body>
+
+</html>
