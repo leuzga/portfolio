@@ -434,14 +434,14 @@
     }
 
     /* — imagen — */
-    .project-img-wrap {
+    -img-wrap {
       position: relative;
       overflow: hidden;
       aspect-ratio: 16/9;
       background: var(--surface2);
     }
 
-    .project-img-wrap img {
+    -img-wrap img {
       width: 100%;
       height: 100%;
       object-fit: cover;
@@ -629,6 +629,18 @@
       color: var(--canario);
     }
 
+    .project-subname {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      font-weight: 600;
+      line-height: 1.1;
+      margin-bottom: 10px;
+      transition: color .2s;
+    }
+    
+    .project-card:hover .project-subname {
+      color: var(--canario);
+    }
     .project-url {
       font-family: 'DM Mono', monospace;
       font-size: .63rem;
@@ -1248,7 +1260,7 @@
           </div>
         </div>
         <h3 class="project-name">Proyecto Angular 19</h3>
-        <h4 class="project-name">Module Federation</h4>
+        <h4 class="project-subname">Module Federation</h4>
         <div class="project-url">proyecto-v19.vercel.app</div>
         <p class="project-desc">
           Este proyecto demuestra una arquitectura de <strong>micro-frontends basada en Module Federation</strong> que
@@ -1335,6 +1347,7 @@
           </div>
         </div>
         <h3 class="project-name">Shopping Store Angular 19+</h3>
+        <h4 class="project-subname">Signals Functional Programming</h4>
         <div class="project-url">shopping-store-psi-pied.vercel.app</div>
         <p class="project-desc">
           Este proyecto de <strong>e-commerce desarrollado exclusivamente con Angular 19+</strong> demuestra la
@@ -1385,7 +1398,7 @@
           </div>
         </div>
         <h3 class="project-name">Garnet UI System UI</h3>
-        <h4 class="project-name">Storybook 8+</h4>
+        <h4 class="project-subname">Storybook 8+</h4>
         <div class="project-url">garnet-ui-svelte5.vercel.app</div>
         <p class="project-desc">
           Este proyecto representa una <strong>implementación nativa de Svelte 5</strong> que explota exclusivamente el
@@ -1436,7 +1449,7 @@
           </div>
         </div>
         <h3 class="project-name">Ebook Landing</h3>
-        <h4 class="project-name">Tailwind - Stripe</h4>
+        <h4 class="project-subname">Tailwind - Stripe</h4>
         <div class="project-url">curso-ebook-landing-rho.vercel.app</div>
         <p class="project-desc">
           Esta <strong>landing page desarrollada con Svelte</strong> demuestra la integración estratégica entre
@@ -1479,7 +1492,7 @@
           </div>
         </div>
         <h3 class="project-name">React Festivall</h3>
-        <h4 class="project-name">React</h4>
+        <h4 class="project-subname">ecommerce reactQuery Zustant</h4>
         <div class="project-url">reactfestivall.vercel.app</div>
         <p class="project-desc">
           Este <strong>e-commerce desarrollado en React con TanStack Query</strong> representa la entrega final de un
