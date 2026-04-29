@@ -403,26 +403,33 @@
     /* ══════════════════════════════════════════
    PROJECTS GRID
 ══════════════════════════════════════════ */
-    .projects {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
-      gap: 20px;
-      background: var(--bg);
-      padding: 40px 48px;
-    }
+/* REEMPLAZA TODO tu bloque .projects actual por esto */
+.projects {
+  column-count: 3;
+  column-gap: 20px;
+  padding: 40px 48px;
+  background: var(--bg);
+}
 
-    .project-card {
-      background: var(--surface);
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      text-decoration: none;
-      color: inherit;
-      transition: background .3s, transform .3s, box-shadow .3s;
-      position: relative;
-      border-radius: 12px;
-      border: 1px solid var(--border);
-    }
+.project-card {
+  break-inside: avoid; /* evita que una card se corte */
+  margin-bottom: 20px;
+  display: inline-block; /* necesario para columns */
+  width: 100%;
+  /* quita: align-self: start; */
+}
+
+/* responsive igual que tenías */
+@media (max-width: 1200px) {
+  .projects { column-count: 2; }
+}
+@media (max-width:768px) {
+  .projects { 
+    column-count: 1; 
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+}
 
     .project-card:hover {
       transform: translateY(-4px);
@@ -1540,7 +1547,7 @@
       </div>
       <div class="project-body">
         <div class="project-meta">
-          <span class="project-index">07 / 07</span>
+          <span class="project-index">07 / 08</span>
           <div class="tech-stack">
             <span class="tech-badge react">React 19+</span>
             <span class="tech-badge ts">TypeScript</span>
@@ -1563,6 +1570,46 @@
           destaca por su <strong>cobertura de testing 100%</strong> con Vitest + React Testing Library, validando
           cada funcionalidad crítica. Ideal para demostrar capacidad de construir <em>aplicaciones modernas,
           escalables y profesionalmente testeadas</em> usando el ecosistema React más actual.
+        </p>
+      </div>
+    </a>
+
+    <!-- ── 08: Turnos API ── -->
+    <a class="project-card reveal" href="https://turno-api.onrender.com" target="_blank" rel="noopener">
+      <div class="project-img-wrap">
+        <img
+          src="https://api.microlink.io?url=https%3A%2F%2Fturno-api.onrender.com&screenshot=true&meta=false&embed=screenshot.url"
+          alt="Turnos API" loading="lazy"
+          onerror="this.parentNode.innerHTML='<div class=\'img-placeholder\'><div class=\'ph-icon\'>🗂️</div><div class=\'ph-text\'>turno-api.onrender.com</div></div>'">
+        <div class="img-overlay"></div>
+        <div class="visit-btn">Ver proyecto →</div>
+        <div class="featured-tag">Node.js</div>
+      </div>
+      <div class="project-body">
+        <div class="project-meta">
+          <span class="project-index">08 / 08</span>
+          <div class="tech-stack">
+            <span class="tech-badge js">Node.js</span>
+            <span class="tech-badge vite">Fastify</span>
+            <span class="tech-badge api">PostgreSQL</span>
+            <span class="tech-badge vue">Sequelize</span>
+            <span class="tech-badge ts">REST API</span>
+          </div>
+        </div>
+        <h3 class="project-name">Turnos API</h3>
+        <h4 class="project-subname">Backend REST · Node + Fastify + PostgreSQL</h4>
+        <div class="project-url">turno-api.onrender.com</div>
+        <p class="project-desc">
+          <strong>API REST completa para gestión de turnos y tickets</strong> construida con
+          <strong>Node.js, Fastify y Sequelize</strong> sobre <strong>PostgreSQL</strong>.
+          El sistema modela tres entidades relacionadas: <em>usuarios, tiendas y tickets</em>,
+          con <strong>CRUD completo</strong> para cada tabla y relaciones definidas en el ORM
+          (tickets pertenecen a un usuario y a una tienda, con eliminación en cascada).
+          Expone documentación interactiva integrada para explorar y probar cada endpoint.
+          Desplegada en <strong>Render</strong>, demuestra arquitectura de backend sólida:
+          <em>validación de datos, encriptación de contraseñas con bcrypt, manejo de errores
+          y separación por capas</em>. Un proyecto backend enfocado en diseño de APIs
+          <strong>limpias, relacionales y listas para producción</strong>.
         </p>
       </div>
     </a>
